@@ -1,0 +1,420 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 560" width="940" height="560">
+  <defs>
+    <!-- Fonts -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+
+      /* General Styles */
+      .bg { fill: #05050a; }
+      .font-mono { font-family: 'Fira Code', 'Consolas', monospace; font-size: 13px; }
+      .font-sans { font-family: 'Inter', sans-serif; }
+
+      /* Window Drop Shadows &amp; Glows */
+      .glow-violet { fill: url(#violet-glow-grad); }
+      .glow-green { fill: url(#green-glow-grad); }
+      .glass-terminal { fill: rgba(13, 17, 23, 0.85); stroke: rgba(255, 255, 255, 0.08); stroke-width: 1.5; filter: url(#drop-shadow-window); }
+      .glass-hud { fill: rgba(17, 12, 34, 0.93); stroke: rgba(129, 140, 248, 0.35); stroke-width: 1.5; filter: url(#drop-shadow-hud); }
+
+      /* Terminal Colors */
+      .titlebar-bg { fill: #161b22; }
+      .dot-red { fill: #ff5f56; }
+      .dot-yellow { fill: #ffbd2e; }
+      .dot-green { fill: #27c93f; }
+      .window-title { fill: #8b949e; font-size: 11px; font-weight: 500; }
+      .prompt { fill: #58a6ff; font-weight: 700; }
+      .cmd-text { fill: #c9d1d9; }
+      .ansi-green { fill: #57ab5a; }
+      .ansi-green-bold { fill: #57ab5a; font-weight: 700; }
+      .ansi-blue { fill: #58a6ff; }
+      .ansi-cyan { fill: #39c5cf; }
+      .ansi-gray { fill: #8b949e; }
+      .ansi-dim { fill: #484f58; }
+      .ansi-white-bold { fill: #f0f6fc; font-weight: 700; }
+
+      /* Blinking Cursor */
+      .cursor { fill: #58a6ff; }
+      @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+      .cursor-blink { animation: blink 1s step-end infinite; }
+
+      /* Typing Clip Path Animations */
+      @keyframes clipCmd1 {
+        0%, 4.17% { width: 0; }
+        12.5%, 100% { width: 280px; }
+      }
+      .clip-cmd1 { animation: clipCmd1 12s linear infinite; }
+
+      @keyframes clipCmd2 {
+        0%, 29.17% { width: 0; }
+        35.0%, 100% { width: 125px; }
+      }
+      .clip-cmd2 { animation: clipCmd2 12s linear infinite; }
+
+      /* Cursor Translates */
+      @keyframes cursor1Move {
+        0%, 4.17% { transform: translateX(0); opacity: 1; }
+        12.5% { transform: translateX(254px); opacity: 1; }
+        14.0%, 100% { transform: translateX(254px); opacity: 0; }
+      }
+      .cursor-1 { transform-origin: 20px 20px; animation: cursor1Move 12s linear infinite, blink 1s step-end infinite; }
+
+      @keyframes cursor2Move {
+        0%, 29.17% { transform: translateX(0); opacity: 0; }
+        29.18% { transform: translateX(0); opacity: 1; }
+        35.0% { transform: translateX(110px); opacity: 1; }
+        37.0%, 100% { transform: translateX(110px); opacity: 0; }
+      }
+      .cursor-2 { transform-origin: 20px 125px; animation: cursor2Move 12s linear infinite, blink 1s step-end infinite; }
+
+      /* Sequential Visibility Timelines */
+      @keyframes showSpinner { 0%, 14.9% { opacity: 0; } 15.0%, 24.9% { opacity: 1; } 25.0%, 100% { opacity: 0; } }
+      .spinner-container { animation: showSpinner 12s step-end infinite; }
+
+      @keyframes showAt25pct { 0%, 24.9% { opacity: 0; } 25.0%, 100% { opacity: 1; } }
+      .log-success { animation: showAt25pct 12s step-end infinite; }
+
+      @keyframes showAt29pct { 0%, 29.16% { opacity: 0; } 29.17%, 100% { opacity: 1; } }
+      .prompt-2 { animation: showAt29pct 12s step-end infinite; }
+
+      @keyframes showAt40pct { 0%, 39.9% { opacity: 0; } 40.0%, 100% { opacity: 1; } }
+      .log-metro { animation: showAt40pct 12s step-end infinite; }
+
+      @keyframes showAt41pct { 0%, 41.66% { opacity: 0; } 41.67%, 100% { opacity: 1; } }
+      .log-registered { animation: showAt41pct 12s step-end infinite; }
+
+      @keyframes showAt48pct { 0%, 48.32% { opacity: 0; } 48.33%, 100% { opacity: 1; } }
+      .log-active { animation: showAt48pct 12s step-end infinite; }
+
+      @keyframes showAt54pct { 0%, 54.16% { opacity: 0; } 54.17%, 100% { opacity: 1; } }
+      .log-will-show { animation: showAt54pct 12s step-end infinite; }
+
+      @keyframes showAt56pct { 0%, 55.9% { opacity: 0; } 56.0%, 100% { opacity: 1; } }
+      .log-show-state { animation: showAt56pct 12s step-end infinite; }
+
+      @keyframes showAt79pct { 0%, 79.16% { opacity: 0; } 79.17%, 100% { opacity: 1; } }
+      .log-will-hide { animation: showAt79pct 12s step-end infinite; }
+
+      @keyframes showAt81pct { 0%, 80.9% { opacity: 0; } 81.0%, 100% { opacity: 1; } }
+      .log-hide-state { animation: showAt81pct 12s step-end infinite; }
+
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      .spin-icon { animation: spin 0.8s linear infinite; transform-origin: 26px 50px; }
+
+      /* ════════════ Smartphone Animations ════════════ */
+      @keyframes slideKeyboard {
+        0%, 43.33% { transform: translateY(0); }
+        45.83%, 68.33% { transform: translateY(-120px); }
+        70.83%, 100% { transform: translateY(0); }
+      }
+      .phone-keyboard { animation: slideKeyboard 12s cubic-bezier(0.25, 1, 0.5, 1) infinite; }
+
+      @keyframes pushInput {
+        0%, 43.33% { transform: translateY(0); }
+        45.83%, 68.33% { transform: translateY(-120px); }
+        70.83%, 100% { transform: translateY(0); }
+      }
+      .phone-input-group { animation: pushInput 12s cubic-bezier(0.25, 1, 0.5, 1) infinite; }
+
+      @keyframes expandSpacer {
+        0%, 43.33% { transform: scaleY(0); opacity: 0; }
+        45.83%, 68.33% { transform: scaleY(1); opacity: 0.85; }
+        70.83%, 100% { transform: scaleY(0); opacity: 0; }
+      }
+      .keyboard-spacer-highlight { transform-origin: 680px 456px; animation: expandSpacer 12s cubic-bezier(0.25, 1, 0.5, 1) infinite; }
+
+      /* Touch Gestures Rings */
+      @keyframes pulseRing1 {
+        0%, 40% { transform: scale(0); opacity: 0; }
+        41.67% { transform: scale(1); opacity: 0.8; }
+        43.33% { transform: scale(2.2); opacity: 0; }
+        43.34%, 100% { transform: scale(0); opacity: 0; }
+      }
+      .pulse-ring-1 { transform-origin: 680px 374px; animation: pulseRing1 12s ease-out infinite; }
+
+      @keyframes pulseRing2 {
+        0%, 65% { transform: scale(0); opacity: 0; }
+        66.67% { transform: scale(1); opacity: 0.8; }
+        68.33% { transform: scale(2.2); opacity: 0; }
+        68.34%, 100% { transform: scale(0); opacity: 0; }
+      }
+      .pulse-ring-2 { transform-origin: 750px 543px; animation: pulseRing2 12s ease-out infinite; }
+
+      /* Dual Stateinspector inspector text triggers */
+      @keyframes showStateA { 0%, 45.83% { opacity: 1; } 45.84%, 70.82% { opacity: 0; } 70.83%, 100% { opacity: 1; } }
+      @keyframes showStateB { 0%, 45.83% { opacity: 0; } 45.84%, 70.82% { opacity: 1; } 70.83%, 100% { opacity: 0; } }
+      .state-text-a { animation: showStateA 12s step-end infinite; }
+      .state-text-b { animation: showStateB 12s step-end infinite; }
+
+      /* Pulse HUD Blue LED */
+      @keyframes pulseBlue {
+        0%, 100% { fill: #3b82f6; opacity: 0.5; }
+        50% { fill: #60a5fa; opacity: 1; filter: drop-shadow(0 0 3px #60a5fa); }
+      }
+      .pulse-blue { animation: pulseBlue 1.6s ease-in-out infinite; }
+    </style>
+
+    <!-- Filters &amp; Gradients -->
+    <clipPath id="clip-path-cmd1">
+      <rect class="clip-cmd1" x="20" y="8" width="0" height="25" />
+    </clipPath>
+    <clipPath id="clip-path-cmd2">
+      <rect class="clip-cmd2" x="20" y="112" width="0" height="25" />
+    </clipPath>
+
+    <clipPath id="screen-clip">
+      <rect x="566" y="66" width="228" height="418" rx="30" ry="30" />
+    </clipPath>
+
+    <linearGradient id="spacer-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0.02" />
+    </linearGradient>
+
+    <!-- Glowing Background Orbs -->
+    <radialGradient id="violet-glow-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="green-glow-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Filter Shadows -->
+    <filter id="drop-shadow-window" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="15" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+    
+    <filter id="drop-shadow-hud" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="20" flood-color="#6366f1" flood-opacity="0.25" />
+    </filter>
+
+    <filter id="led-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect class="bg" width="940" height="560" rx="20" ry="20" />
+
+  <!-- Ambient Light Orbs -->
+  <circle class="glow-violet" cx="700" cy="200" r="320" />
+  <circle class="glow-green" cx="240" cy="380" r="300" />
+
+  <!-- ════════════ LAYER 2: Dev Terminal Window (Floating Backdrop) ════════════ -->
+  <g transform="translate(0, 0)">
+    <rect class="glass-terminal" x="40" y="50" width="480" height="440" rx="12" ry="12" />
+    
+    <!-- Titlebar -->
+    <path class="titlebar-bg" d="M41,51.5 h478 a10.5,10.5 0 0 1 10.5,10.5 v20 h-499 v-20 a10.5,10.5 0 0 1 10.5,-10.5 z" />
+    <circle class="dot-red" cx="64" cy="67" r="5"/>
+    <circle class="dot-yellow" cx="80" cy="67" r="5"/>
+    <circle class="dot-green" cx="96" cy="67" r="5"/>
+    <text class="font-sans window-title" x="114" y="71">developer-console — react-native-pure-keyboard</text>
+    <line x1="40" y1="82" x2="520" y2="82" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1.5" />
+
+    <!-- Terminal Content Stream -->
+    <g transform="translate(40, 95)">
+      <!-- Command 1: Typing -->
+      <text class="font-mono prompt" x="20" y="26">❯</text>
+      <text class="font-mono cmd-text" x="40" y="26" clip-path="url(#clip-path-cmd1)">npm i react-native-pure-keyboard</text>
+      <rect class="cursor cursor-1" x="40" y="12" width="8" height="16" rx="1"/>
+
+      <!-- Spinner container -->
+      <g class="spinner-container">
+        <path class="spin-icon" d="M26,50 A6,6 0 1,1 20,56" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round"/>
+        <text class="font-mono ansi-cyan" x="38" y="60">resolving packages...</text>
+      </g>
+
+      <!-- Success installation logs -->
+      <g class="log-success">
+        <text class="font-mono ansi-green-bold" x="20" y="60">✔ Installed react-native-pure-keyboard@1.0.2</text>
+        <text class="font-mono ansi-gray" x="20" y="80">  ├─ Zero native modules (Expo Go compatible)</text>
+        <text class="font-mono ansi-gray" x="20" y="98">  └─ Zero dependencies (100% pure JS)</text>
+      </g>
+
+      <!-- Command 2: npx expo start -->
+      <g class="prompt-2">
+        <text class="font-mono prompt" x="20" y="128">❯</text>
+        <text class="font-mono cmd-text" x="40" y="128" clip-path="url(#clip-path-cmd2)">expo start</text>
+        <rect class="cursor cursor-2" x="40" y="114" width="8" height="16" rx="1"/>
+      </g>
+
+      <!-- Dev server outputs -->
+      <g class="log-metro">
+        <text class="font-mono ansi-cyan" x="20" y="158">Starting Metro bundler on port 8081...</text>
+      </g>
+
+      <g class="log-registered">
+        <text class="font-mono ansi-green" x="20" y="178">✔ Registered KeyboardState viewport listeners</text>
+      </g>
+
+      <g class="log-active">
+        <text class="font-mono ansi-white-bold" x="20" y="210">[useKeyboard] 🟢 hook monitoring active</text>
+      </g>
+
+      <!-- Event 1: keyboardWillShow -->
+      <g class="log-will-show">
+        <text class="font-mono ansi-blue" x="20" y="242">⌨️ Event: keyboardWillShow | height: 336px | duration: 250ms</text>
+      </g>
+      <g class="log-show-state">
+        <text class="font-mono ansi-dim" x="20" y="262">└─ state: <tspan class="ansi-cyan">{ isKeyboardVisible: true, keyboardHeight: 336 }</tspan></text>
+      </g>
+
+      <!-- Event 2: keyboardWillHide -->
+      <g class="log-will-hide">
+        <text class="font-mono ansi-blue" x="20" y="298">⌨️ Event: keyboardWillHide | height: 0px   | duration: 250ms</text>
+      </g>
+      <g class="log-hide-state">
+        <text class="font-mono ansi-dim" x="20" y="318">└─ state: <tspan class="ansi-cyan">{ isKeyboardVisible: false, keyboardHeight: 0 }</tspan></text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ════════════ LAYER 3: iOS Smartphone Mockup (Middle Layer) ════════════ -->
+  <g transform="translate(0, 0)">
+    <!-- Chassis shadow &amp; frame -->
+    <rect x="560" y="60" width="240" height="430" rx="36" ry="36" fill="#1b1c20" stroke="#3f3f46" stroke-width="4" filter="url(#drop-shadow-window)" />
+    
+    <!-- Screen View area with Clip Path -->
+    <g clip-path="url(#screen-clip)">
+      <rect x="566" y="66" width="228" height="418" fill="#09090b" />
+
+      <!-- Status Bar Top header -->
+      <rect x="566" y="66" width="228" height="46" fill="#18181b" />
+      <line x1="566" y1="112" x2="794" y2="112" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" />
+      <text class="font-sans" x="680" y="99" fill="#f4f4f5" font-size="12px" font-weight="700" text-anchor="middle">PureKeyboard App</text>
+
+      <!-- Static illustrations (Only visible when keyboard is hidden) -->
+      <g class="state-text-a" transform="translate(680, 215)">
+        <rect x="-24" y="-14" width="48" height="28" rx="6" fill="#18181b" stroke="#27272a" stroke-width="1.5" />
+        <rect x="-18" y="-8" width="6" height="6" rx="1.5" fill="#3f3f46" />
+        <rect x="-8" y="-8" width="6" height="6" rx="1.5" fill="#3f3f46" />
+        <rect x="2" y="-8" width="6" height="6" rx="1.5" fill="#3f3f46" />
+        <rect x="12" y="-8" width="6" height="6" rx="1.5" fill="#3f3f46" />
+        <rect x="-18" y="2" width="6" height="6" rx="1.5" fill="#3f3f46" />
+        <rect x="-8" y="2" width="16" height="6" rx="1.5" fill="#818cf8" />
+        <rect x="12" y="2" width="6" height="6" rx="1.5" fill="#3f3f46" />
+        <text class="font-sans" x="0" y="30" fill="#52525b" font-size="8.5px" font-weight="700" text-anchor="middle" letter-spacing="1.2">LIGHTWEIGHT JS</text>
+      </g>
+
+      <!-- Expanding KeyboardSpacer Highlight dashed box -->
+      <g class="keyboard-spacer-highlight">
+        <rect x="582" y="356" width="196" height="120" fill="url(#spacer-gradient)" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4,4" rx="6" />
+        <text class="font-sans" x="680" y="408" fill="#10b981" font-size="11px" font-weight="700" text-anchor="middle">&lt;KeyboardSpacer /&gt;</text>
+        <text class="font-sans" x="680" y="424" fill="#34d399" font-size="9px" font-weight="600" text-anchor="middle">Expanding Spacer Area (+120px)</text>
+      </g>
+
+      <!-- Input components and triggers (Slid/Pushed up synchronously by keyboard) -->
+      <g class="phone-input-group">
+        <!-- Message bubble box -->
+        <rect x="582" y="292" width="196" height="52" rx="8" fill="#18181b" stroke="#27272a" stroke-width="1" />
+        <text class="font-sans" x="592" y="308" fill="#71717a" font-size="8.5px">Press input box below to expand</text>
+        <text class="font-sans" x="592" y="320" fill="#71717a" font-size="8.5px">keyboard. The spacer animates</text>
+        <text class="font-sans" x="592" y="332" fill="#818cf8" font-size="8.5px" font-weight="700">smoothly without double spacing!</text>
+
+        <!-- Input Text Box -->
+        <rect x="582" y="356" width="196" height="34" rx="8" fill="#09090b" stroke="#27272a" stroke-width="1.5" />
+        <text class="font-sans" x="594" y="377" fill="#52525b" font-size="10px">Type comment here...</text>
+
+        <!-- Pulse Ring 1 (Tapping target) -->
+        <circle class="pulse-ring-1" cx="680" cy="374" r="8" fill="none" stroke="#6366f1" stroke-width="2" />
+      </g>
+
+      <!-- Keyboard panel sliding up from bottom -->
+      <g class="phone-keyboard">
+        <!-- Slate dark iOS styled key pad -->
+        <rect x="566" y="440" width="228" height="120" fill="#1f1f23" stroke="#2d2d30" stroke-width="1" />
+        
+        <!-- Key rows layout -->
+        <rect x="572" y="448" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="594" y="448" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="616" y="448" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="638" y="448" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="660" y="448" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="682" y="448" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="704" y="448" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="726" y="448" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="748" y="448" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="770" y="448" width="18" height="22" rx="3" fill="#2d2d30" />
+
+        <rect x="580" y="476" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="602" y="476" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="624" y="476" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="646" y="476" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="668" y="476" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="690" y="476" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="712" y="476" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="734" y="476" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="756" y="476" width="18" height="22" rx="3" fill="#2d2d30" />
+
+        <rect x="572" y="504" width="26" height="22" rx="3" fill="#3a3a3c" />
+        <rect x="602" y="504" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="624" y="504" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="646" y="504" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="668" y="504" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="690" y="504" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="712" y="504" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="734" y="504" width="18" height="22" rx="3" fill="#2d2d30" />
+        <rect x="756" y="504" width="32" height="22" rx="3" fill="#3a3a3c" />
+
+        <rect x="572" y="532" width="36" height="22" rx="3" fill="#3a3a3c" />
+        <rect x="612" y="532" width="96" height="22" rx="3" fill="#2d2d30" />
+        
+        <!-- Done Action button -->
+        <rect x="712" y="532" width="76" height="22" rx="3" fill="#6366f1" />
+        <text class="font-sans" x="750" y="546" fill="#ffffff" font-size="10px" font-weight="700" text-anchor="middle">DONE</text>
+
+        <!-- Pulse Ring 2 (Dismissing target) -->
+        <circle class="pulse-ring-2" cx="750" cy="543" r="8" fill="none" stroke="#22d3ee" stroke-width="2" />
+      </g>
+    </g>
+
+    <!-- Dynamic Island &amp; details -->
+    <rect x="636" y="74" width="88" height="20" rx="10" fill="#000000" />
+    <circle cx="648" cy="84" r="3.5" fill="#111" />
+    <circle cx="704" cy="84" r="2.5" fill="#111" />
+  </g>
+
+  <!-- ════════════ LAYER 4: State Inspector HUD Panel (Floating Top Layer Overlay) ════════════ -->
+  <!-- Anchored in the middle to bridge Terminal and Smartphone workspace. It overlaps both -->
+  <g transform="translate(0, 0)" filter="url(#drop-shadow-hud)">
+    <rect class="glass-hud" x="380" y="240" width="240" height="144" rx="10" ry="10" />
+    
+    <!-- HUD Header -->
+    <rect x="381" y="241" width="238" height="30" rx="8" fill="#131034" />
+    <text class="font-sans" x="500" y="260" fill="#c7d2fe" font-size="11px" font-weight="700" text-anchor="middle" letter-spacing="1.2">STATE INSPECTOR</text>
+    <line x1="380" y1="271" x2="620" y2="271" stroke="rgba(129, 140, 248, 0.2)" stroke-width="1" />
+
+    <!-- Pulse Blue LED for active listener -->
+    <circle class="pulse-blue" cx="400" cy="292" r="4.5" />
+    <text class="font-sans" x="414" y="296" fill="#818cf8" font-size="10px" font-weight="600">useKeyboard() Listener</text>
+
+    <!-- State A (Keyboard Hidden) -->
+    <g class="state-text-a">
+      <!-- Status LED (red/gray) -->
+      <circle cx="400" cy="320" r="4.5" fill="#ef4444" opacity="0.6" />
+      <text class="font-mono" x="414" y="324" fill="#a1a1aa" font-size="10px">isKeyboardVisible: <tspan fill="#f87171" font-weight="700">false</tspan></text>
+      
+      <!-- Spacer Height Info -->
+      <text class="font-mono" x="400" y="352" fill="#a1a1aa" font-size="10px">keyboardHeight:    <tspan fill="#71717a" font-weight="700">0px</tspan></text>
+    </g>
+
+    <!-- State B (Keyboard Active) -->
+    <g class="state-text-b">
+      <!-- Status LED (green glow) -->
+      <circle cx="400" cy="320" r="5" fill="#10b981" filter="url(#led-glow)" />
+      <text class="font-mono" x="414" y="324" fill="#a1a1aa" font-size="10px">isKeyboardVisible: <tspan fill="#34d399" font-weight="700">true</tspan></text>
+      
+      <!-- Spacer Height Info -->
+      <text class="font-mono" x="400" y="352" fill="#a1a1aa" font-size="10px">keyboardHeight:    <tspan fill="#34d399" font-weight="700">336px</tspan></text>
+    </g>
+  </g>
+
+  <!-- Bottom Workspace Brand Label -->
+  <text class="font-sans" x="470" y="534" fill="#3f3f46" font-size="11px" font-weight="600" text-anchor="middle" letter-spacing="0.5">HIGH-PERFORMANCE PURE JS VIEWPORT UTILITY</text>
+
+</svg>

@@ -6,6 +6,10 @@
 
 A high-performance, **zero-dependency**, pure JavaScript keyboard utility for React Native and Expo. No native modules, no complex setup, just smooth keyboard handling.
 
+<p align="center">
+  <img src="./assets/cli_demo.svg" alt="react-native-pure-keyboard CLI Demo" width="100%" style="max-width: 940px;" />
+</p>
+
 ##  Features
 
 -  **Zero Native Modules**: Works in Expo Go without `prebuild`.
